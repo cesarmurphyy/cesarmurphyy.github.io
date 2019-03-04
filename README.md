@@ -12,12 +12,12 @@ If you don't have experience with Docker already take some time to go through th
 
 ## Setup
 
-1. **Fork the Template Repo**
+1. **Clone the Template Repo**
 
-The lead developer in your team should fork this repo to their own GitHub account - This repo should be kept private. The lead developer should then add the developers in your team as collaborators who can then clone the repo to their local machines using the following command:
+Clone a local copy of the repo onto your machine and `cd` into the project directory.
 
-    $ git clone https://github.com/YOUR_USERNAME/pace-2019-s1
-    $ cd pace-2019-s1
+    $ git clone https://github.com/ey-dna-pace/pace-2019-s1-group-2
+    $ cd pace-2019-s1-group-2
     
 When using git as a team we strongly encourage using the following methodology: [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/) _You should print the graphic on this page out and post it on your bedroom wall, analyse it once before you go to bed and again when you wake up in the morning. Everyday._
 
