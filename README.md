@@ -31,7 +31,7 @@ To use OpenCV as specified in the Dockerfile you are required to build an image.
 
 During development you will want to update the source code of your Flask app without having to constantly rebuild your image. You can [mount a volume](https://docs.docker.com/storage/volumes/) for your working directory during development to keep your source up to date.
 
-**Ensure the `<project_path>` segment of the following command is the correct syntax / path for your OS, on MacOs/Linux you can simply use `"($pwd)"`.**
+**Ensure the `<project_path>` segment of the following command is the correct syntax / path for your OS, on MacOs/Linux you can simply use `"$(pwd)"`.**
 
     $ docker run -p 5000:5000 -m <project_path>:/app virtualprojectboard
     
