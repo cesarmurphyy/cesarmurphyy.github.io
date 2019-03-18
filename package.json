@@ -1,0 +1,23 @@
+{
+  "name": "pace-2019-s1-group-2",
+  "version": "1.0.0",
+  "description": "Starter template for PACE 2019 s1.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ey-dna-pace/pace-2019-s1-group-2.git"
+  },
+  "author": "Blake Lockley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ey-dna-pace/pace-2019-s1-group-2/issues"
+  },
+  "homepage": "https://github.com/ey-dna-pace/pace-2019-s1-group-2#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "nunjucks": "^3.2.0"
+  }
+}

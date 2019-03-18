@@ -42,18 +42,7 @@
 
             <!-- Content -->
             <div id="content" class="col-12 col-md-10 offset-md-2 mt-5 px-5" style="display: none">
-                {% with messages = get_flashed_messages(with_categories=True) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                        <div class="alert alert-{{ category }} mb-5" role="alert">
-                            {{ message }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
+                <!-- NOTE: Message flashing has been removed for node template. -->
 
                 {% block content %}
                 {% endblock %}
@@ -66,7 +55,7 @@
         src="/static/vendor/jquery/js/jquery-3.3.1.min.js"></script>
 
     <!-- Popper.js -->
-    <script src="/static/vendor/popperjs/js/popper-1.14.7.js"></script>
+    <script src="/static/vendor/popperjs/js/popper-1.14.7.min.js"></script>
 
     <!-- Bootstrap JS -->
     <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>

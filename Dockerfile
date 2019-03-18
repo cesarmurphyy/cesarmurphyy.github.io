@@ -1,11 +1,13 @@
-FROM jjanzic/docker-python3-opencv
+FROM justadudewhohacks/opencv-nodejs
 
 WORKDIR /app
 
 COPY . /app
 
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN npm install
+
+ENV NODE_PATH=/usr/lib/node_modules
 
 EXPOSE 5000
 
-CMD ["python", "app.py"]
+CMD ["node", "app.js"]

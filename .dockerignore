@@ -7,3 +7,5 @@ db.sqlite3
 .gitignore
 .dockerignore
 Dockerfile
+
+node_modules/
