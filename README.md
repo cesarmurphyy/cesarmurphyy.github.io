@@ -42,36 +42,18 @@ If your installation has worked correctly you should see your Flask application 
 
 ## Alternate Setup (No Docker/OpenCV)
 
-If you are not working on functionality directly related to OpenCV or any other features of your app requiring dependencies included in your Dockerfile you can quickly spin up a virtual environment instead.
+If you are not working on functionality directly related to OpenCV or any other features of your app requiring dependencies included in your Dockerfile you can quickly spin up the application in node.
 
-1. **Create a Virtual Environment** 
+1. **Install Requirements**
 
-If you have not used virtualenv or similar tools before you can take a look here: [virtual environment](https://virtualenv.pypa.io/en/latest/). You should use a distribution of python 3 (preferably 3.7) already installed on your machine.
+Install dependencies from the requirements file.
 
-        $ virtualenv env --python=python3.7
-
-2. **Activate your Virtual Environment**
-
-Windows:
+        $ npm install
         
-        $ env\Scripts\activate
-        
-MacOs/Linux:
+2. **Run**
 
-        $ source env/bin/activate
-        
-Once your environment is activated you will notice the environments name `(env)` in the prompt.
-        
-3. **Install Requirements**
+Run the application as usual.
 
-In the virtual environment, install dependencies from the requirements file.
-
-        (env) $ pip install -r requirements.txt
-        
-4. **Run**
-
-In the virtual environment, run the application as usual.
-
-        (env) $ python app.py
+        $ node app.js
 
 _Impress Us_ 😉
