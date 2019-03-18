@@ -39,9 +39,5 @@ app.get('/check_cv', (req, res) => {
     }
 });
 
-app.get('/', (req, res) => {
-    res.render('index.html');
-});
-
 // Start app
 app.listen(port, () => console.log(`Listening on port ${port}!`))
