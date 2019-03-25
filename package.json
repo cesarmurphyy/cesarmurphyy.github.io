@@ -18,6 +18,7 @@
   "homepage": "https://github.com/ey-dna-pace/pace-2019-s1-group-2#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "nodemon": "^1.18.10",
     "nunjucks": "^3.2.0"
   }
 }

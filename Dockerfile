@@ -10,4 +10,4 @@ ENV NODE_PATH=/usr/lib/node_modules
 
 EXPOSE 5000
 
-CMD ["node", "app.js"]
+CMD ["nodemon", "app.js"]

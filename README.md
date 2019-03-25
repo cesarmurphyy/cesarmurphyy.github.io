@@ -33,7 +33,7 @@ During development you will want to update the source code of your Flask app wit
 
 **Ensure the `<project_path>` segment of the following command is the correct syntax / path for your OS, on MacOs/Linux you can simply use `"$(pwd)"`.**
 
-    $ docker run -p 5000:5000 -v <project_path>:/app virtualprojectboard
+    $ docker run -i -p 5000:5000 -v <project_path>:/app virtualprojectboard
     
 4. **Check OpenCV is working**
 
