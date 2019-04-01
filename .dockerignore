@@ -3,7 +3,7 @@
 env/
 venv/
 db.sqlite3
-
+node_modules/
 .gitignore
 .dockerignore
 Dockerfile
