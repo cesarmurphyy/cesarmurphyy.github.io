@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from flask import Flask, render_template, flash
+from flask import Flask, render_template, flash, request
 
 # Once you have built your image in Docker you can import OpenCV to use throughout the project.
 # import cv2
@@ -9,37 +9,46 @@ app = Flask(__name__)
 # Change this otherwise the other team might modify your cookies.
 app.secret_key = b'COOKIE_MONSTER'
 
-# WORKING FOR GRAYSCALE OBJECT DETECTION
-# img = cv2.imread('cards.jpg', cv2.IMREAD_GRAYSCALE)
-# _, threshold = cv2.threshold(img, 240, 255, cv2.THRESH_BINARY)
-# contours, _ = cv2.findContours(
-#     threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-# cv2.drawContours(img, contours, -1, 0, 3)
-# cv2.imwrite('threshold.jpg', threshold)
-# cv2.imwrite('contours.jpg', img)
 
-# min_orange = np.array([111, 255, 255])
-# max_orange = np.array([91, 100, 100])
-# img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+# write function which then returns the drawn image
 
+def find_cards(image):
+    image = cv2.imread(image)
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    highlight = (255, 255, 0)
 
-image = cv2.imread('cards.jpg')
-hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-highlight = (255, 255, 0)
+    min_orange = np.array([16, 100, 100], np.uint8)
+    max_orange = np.array([30, 255, 255], np.uint8)
 
-min_orange = np.array([16, 100, 100], np.uint8)
-max_orange = np.array([30, 255, 255], np.uint8)
+    mask = cv2.inRange(hsv, min_orange, max_orange)
 
-mask = cv2.inRange(hsv, min_orange, max_orange)
+    res = cv2.bitwise_and(image, image, mask=mask)
 
-res = cv2.bitwise_and(image, image, mask=mask)
+    contours, hierarchy = cv2.findContours(
+        mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-contours, hierarchy = cv2.findContours(
-    mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    cv2.drawContours(image, contours, -1, highlight, 10)
 
-cv2.drawContours(image, contours, -1, highlight, 10)
+    return image
 
-cv2.imwrite('contours.jpg', image)
+# WORKING EXAMPLE
+# image = cv2.imread('cards.jpg')
+# hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+# highlight = (255, 255, 0)
+
+# min_orange = np.array([16, 100, 100], np.uint8)
+# max_orange = np.array([30, 255, 255], np.uint8)
+
+# mask = cv2.inRange(hsv, min_orange, max_orange)
+
+# res = cv2.bitwise_and(image, image, mask=mask)
+
+# contours, hierarchy = cv2.findContours(
+#     mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+# cv2.drawContours(image, contours, -1, highlight, 10)
+
+# cv2.imwrite('contours.jpg', image)
 
 
 @app.route('/')
@@ -53,7 +62,19 @@ def upload():
     # Flash messages can be useful say when the user successfuly uploads an image or an error occurs.
     # You can change the type of alert box displayed by changing the second argument according to Bootsrap's alert types:
     # https://getbootstrap.com/docs/4.3/components/alerts/
-    flash('Flashing messages are always useful!', 'success')
+    flash('Welcome! Please upload the image of your physical board below!', 'success')
+
+    return render_template('upload.html')
+
+
+@app.route('/send', methods=['GET', 'POST'])
+def send():
+    if request.method == 'POST':
+        image = request.form['image']
+
+        image = find_cards(image)
+
+        return render_template('display.html', image=image)
 
     return render_template('upload.html')
 

@@ -1,6 +1,11 @@
 {% extends "base.html" %} {% block content %}
 
-<h1>Upload</h1>
-<p>Testing again.</p>
+<form method="POST" action="/send">
+  <div>
+    <input type="file" name="image" />
+  </div>
+  <br />
+  <div><input type="submit" value="Submit" /></div>
+</form>
 
 {% endblock %}
