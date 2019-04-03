@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from flask import Flask, render_template, flash, request
+from flask import Flask, render_template, flash, request, send_from_directory
 
 # Once you have built your image in Docker you can import OpenCV to use throughout the project.
 # import cv2
@@ -9,8 +9,6 @@ app = Flask(__name__)
 # Change this otherwise the other team might modify your cookies.
 app.secret_key = b'COOKIE_MONSTER'
 
-
-# write function which then returns the drawn image
 
 def find_cards(image):
     image = cv2.imread(image)
@@ -29,7 +27,9 @@ def find_cards(image):
 
     cv2.drawContours(image, contours, -1, highlight, 10)
 
-    return image
+    cv2.imwrite('contours.jpg', image)
+
+    return 'contours.jpg'
 
 # WORKING EXAMPLE
 # image = cv2.imread('cards.jpg')
@@ -67,16 +67,16 @@ def upload():
     return render_template('upload.html')
 
 
-@app.route('/send', methods=['GET', 'POST'])
+@app.route('/send', methods=['POST'])
 def send():
-    if request.method == 'POST':
-        image = request.form['image']
+    image = request.form['image']
+    file_name = find_cards(image)
+    return render_template('display.html', filename=file_name)
 
-        image = find_cards(image)
 
-        return render_template('display.html', image=image)
-
-    return render_template('upload.html')
+@app.route('/send/<filename>')
+def send_image(filename):
+    return send_from_directory('./', filename)
 
 
 @app.route('/check_cv')
