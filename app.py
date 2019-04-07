@@ -1,6 +1,8 @@
 import cv2
 import numpy as np
-from flask import Flask, render_template, flash, request, send_from_directory
+import os
+from flask import Flask, render_template, flash, request, send_from_directory, redirect, url_for
+from werkzeug.utils import secure_filename
 
 # Once you have built your image in Docker you can import OpenCV to use throughout the project.
 # import cv2
@@ -31,25 +33,6 @@ def find_cards(image):
 
     return 'contours.jpg'
 
-# WORKING EXAMPLE
-# image = cv2.imread('cards.jpg')
-# hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-# highlight = (255, 255, 0)
-
-# min_orange = np.array([16, 100, 100], np.uint8)
-# max_orange = np.array([30, 255, 255], np.uint8)
-
-# mask = cv2.inRange(hsv, min_orange, max_orange)
-
-# res = cv2.bitwise_and(image, image, mask=mask)
-
-# contours, hierarchy = cv2.findContours(
-#     mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-# cv2.drawContours(image, contours, -1, highlight, 10)
-
-# cv2.imwrite('contours.jpg', image)
-
 
 @app.route('/')
 def index():
@@ -62,21 +45,24 @@ def upload():
     # Flash messages can be useful say when the user successfuly uploads an image or an error occurs.
     # You can change the type of alert box displayed by changing the second argument according to Bootsrap's alert types:
     # https://getbootstrap.com/docs/4.3/components/alerts/
-    flash('Welcome! Please upload the image of your physical board below!', 'success')
 
     return render_template('upload.html')
 
 
-@app.route('/send', methods=['POST'])
+@app.route('/send', methods=['GET', 'POST'])
 def send():
-    image = request.form['image']
-    file_name = find_cards(image)
-    return render_template('display.html', filename=file_name)
+    if request.method == 'POST':
+        file = request.files['file']
+        name = secure_filename(file.filename)
+        file.save(os.path.join('./uploads', name))
+        target = os.path.join('./uploads', name)
+        # image = find_cards(target)
+        return render_template('display.html', filename=target)
 
 
 @app.route('/send/<filename>')
 def send_image(filename):
-    return send_from_directory('./', filename)
+    return send_from_directory('.', filename)
 
 
 @app.route('/check_cv')

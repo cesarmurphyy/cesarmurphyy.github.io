@@ -1,11 +1,13 @@
 {% extends "base.html" %} {% block content %}
 
-<form method="POST" action="/send">
-  <div>
-    <input type="file" name="image" />
-  </div>
-  <br />
-  <div><input type="submit" value="Submit" /></div>
-</form>
-
+<div>
+  <h1>Upload new Image</h1>
+  <form method="POST" action="/send" enctype=multipart/form-data>
+    <div>
+      <input type="file" name="file" />
+    </div>
+    <br />
+    <div><input type="submit" value="Upload" /></div>
+  </form>
+</div>
 {% endblock %}
