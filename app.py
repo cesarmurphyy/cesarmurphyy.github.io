@@ -1,8 +1,10 @@
 import cv2
 import numpy as np
 import os
+import requests
 from flask import Flask, render_template, flash, request, send_from_directory, redirect, url_for
 from werkzeug.utils import secure_filename
+
 
 # Once you have built your image in Docker you can import OpenCV to use throughout the project.
 # import cv2
@@ -10,6 +12,25 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 # Change this otherwise the other team might modify your cookies.
 app.secret_key = b'COOKIE_MONSTER'
+
+api_key = '6c273a0a3217b9ef9dfab75ad52be718'
+token = 'db500f0ec127c8035e415d8ef69efca62b9512e37c5a89e960c4c7feed65d07a'
+api_secret = '559cdd086e4499cb9005b4a14b0be857f3772546301b3dd46571e088abf6124e'
+board_id = '5cb3766abef1af32d1d419e7'
+
+test = '5cb3768ebb644455d2494410'
+test_two = '5cb4740d12d2f18dd650076c'
+test_three = '5cb4743965183c7875c07560'
+
+to_do = '5cb3767871b6b10a8a22f3c5'
+in_progress = '5cb3767ca0a82f1361d0c87d'
+done = '5cb3767e25a4056a46c12683'
+
+url = 'https://api.trello.com/1/cards/5cb4740d12d2f18dd650076c/idList?value=5cb3767ca0a82f1361d0c87d&key=6c273a0a3217b9ef9dfab75ad52be718&token=db500f0ec127c8035e415d8ef69efca62b9512e37c5a89e960c4c7feed65d07a'
+url2 = 'https://api.trello.com/1/cards/5cb4743965183c7875c07560/idList?value=5cb3767e25a4056a46c12683&key=6c273a0a3217b9ef9dfab75ad52be718&token=db500f0ec127c8035e415d8ef69efca62b9512e37c5a89e960c4c7feed65d07a'
+
+# response = requests.request('PUT', url)
+# response2 = requests.request('PUT', url2)
 
 
 def find_cards(image):
@@ -55,14 +76,15 @@ def send():
         file = request.files['file']
         name = secure_filename(file.filename)
         file.save(os.path.join('./uploads', name))
-        target = os.path.join('./uploads', name)
+        # target = os.path.join('./uploads', name)
         # image = find_cards(target)
-        return render_template('display.html', filename=target)
+        return render_template('display.html', filename=name)
 
 
 @app.route('/send/<filename>')
 def send_image(filename):
-    return send_from_directory('.', filename)
+    print(filename)
+    return send_from_directory('./uploads', filename)
 
 
 @app.route('/check_cv')
