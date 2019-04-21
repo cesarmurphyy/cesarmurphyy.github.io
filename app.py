@@ -5,34 +5,38 @@ import requests
 from flask import Flask, render_template, flash, request, send_from_directory, redirect, url_for
 from werkzeug.utils import secure_filename
 
-
-# Once you have built your image in Docker you can import OpenCV to use throughout the project.
-# import cv2
-
 app = Flask(__name__)
 # Change this otherwise the other team might modify your cookies.
 app.secret_key = b'COOKIE_MONSTER'
 
+# Keys for Trello API
 api_key = '6c273a0a3217b9ef9dfab75ad52be718'
-token = 'db500f0ec127c8035e415d8ef69efca62b9512e37c5a89e960c4c7feed65d07a'
+api_token = 'db500f0ec127c8035e415d8ef69efca62b9512e37c5a89e960c4c7feed65d07a'
 api_secret = '559cdd086e4499cb9005b4a14b0be857f3772546301b3dd46571e088abf6124e'
+
+# Identifiers for EY Sync board
 board_id = '5cb3766abef1af32d1d419e7'
 
-test = '5cb3768ebb644455d2494410'
-test_two = '5cb4740d12d2f18dd650076c'
-test_three = '5cb4743965183c7875c07560'
-
+# Identifiers for the columns of the board
 to_do = '5cb3767871b6b10a8a22f3c5'
 in_progress = '5cb3767ca0a82f1361d0c87d'
 done = '5cb3767e25a4056a46c12683'
 
-url = 'https://api.trello.com/1/cards/5cb4740d12d2f18dd650076c/idList?value=5cb3767ca0a82f1361d0c87d&key=6c273a0a3217b9ef9dfab75ad52be718&token=db500f0ec127c8035e415d8ef69efca62b9512e37c5a89e960c4c7feed65d07a'
-url2 = 'https://api.trello.com/1/cards/5cb4743965183c7875c07560/idList?value=5cb3767e25a4056a46c12683&key=6c273a0a3217b9ef9dfab75ad52be718&token=db500f0ec127c8035e415d8ef69efca62b9512e37c5a89e960c4c7feed65d07a'
+# Identifiers for the cards on the board
+test = '5cb3768ebb644455d2494410'
+test_two = '5cb4740d12d2f18dd650076c'
+test_three = '5cb4743965183c7875c07560'
 
+# API calls to move cards 2 and 3
+url = 'https://api.trello.com/1/cards/'+test_two + \
+    '/idList?value='+in_progress+'&key='+api_key+'&token='+api_token
+url2 = 'https://api.trello.com/1/cards/'+test_three + \
+    '/idList?value='+done+'&key='+api_key+'&token='+api_token
 # response = requests.request('PUT', url)
 # response2 = requests.request('PUT', url2)
 
 
+# Find orange cards
 def find_cards(image):
     image = cv2.imread(image)
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -69,7 +73,7 @@ def upload():
 
     return render_template('upload.html')
 
-
+# Handle form submit
 @app.route('/send', methods=['GET', 'POST'])
 def send():
     if request.method == 'POST':
@@ -83,7 +87,6 @@ def send():
 
 @app.route('/send/<filename>')
 def send_image(filename):
-    print(filename)
     return send_from_directory('./uploads', filename)
 
 
