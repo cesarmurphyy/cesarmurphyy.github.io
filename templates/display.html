@@ -1,9 +1,12 @@
 {% extends "base.html" %} {% block content %}
 
-<img
+<!-- <img
   src="{{url_for('send_image', filename=filename)}}"
   height="800"
   width="600"
-/>
+/> -->
+<div class="alert alert-success" role="alert">
+  Your image was succesfully uploaded!
+</div>
 
 {% endblock %}

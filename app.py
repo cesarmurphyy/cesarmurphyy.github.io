@@ -58,6 +58,35 @@ def find_cards(image):
 
     return 'contours.jpg'
 
+# Identify column
+
+
+def find_column(image):
+    highlight = (255, 255, 0)
+    img = cv2.imread(image, 0)
+    ret, threshold = cv2.threshold(img, 120, 255, cv2.THRESH_BINARY)
+    contours, hierarchy = cv2.findContours(
+        threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    for cnt in contours:
+        approx = cv2.approxPolyDP(cnt, 0.01*cv2.arcLength(cnt, True), True)
+        cv2.drawContours(img, [approx], -1, highlight, 10)
+
+        if len(approx) == 3:
+            call = 'https://api.trello.com/1/cards/'+test + \
+                '/idList?value='+to_do+'&key='+api_key+'&token='+api_token
+            response = requests.request('PUT', call)
+        elif len(approx) == 5:
+            call = 'https://api.trello.com/1/cards/'+test + \
+                '/idList?value='+in_progress+'&key='+api_key+'&token='+api_token
+            response = requests.request('PUT', call)
+        elif len(approx) == 6:
+            call = 'https://api.trello.com/1/cards/'+test + \
+                '/idList?value='+done+'&key='+api_key+'&token='+api_token
+            response = requests.request('PUT', call)
+
+    cv2.imwrite('grayscale.jpg', img)
+
 
 @app.route('/')
 def index():
@@ -80,7 +109,8 @@ def send():
         file = request.files['file']
         name = secure_filename(file.filename)
         file.save(os.path.join('./uploads', name))
-        # target = os.path.join('./uploads', name)
+        target = os.path.join('./uploads', name)
+        find_column(target)
         # image = find_cards(target)
         return render_template('display.html', filename=name)
 
