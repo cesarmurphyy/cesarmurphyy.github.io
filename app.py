@@ -58,8 +58,6 @@ def find_cards(image):
 
     return 'contours.jpg'
 
-# Identify column
-
 
 def find_column(image):
     highlight = (255, 255, 0)
@@ -85,7 +83,7 @@ def find_column(image):
                 '/idList?value='+done+'&key='+api_key+'&token='+api_token
             response = requests.request('PUT', call)
 
-    cv2.imwrite('grayscale.jpg', img)
+    # cv2.imwrite('grayscale.jpg', img)
 
 
 @app.route('/')
