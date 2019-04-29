@@ -54,10 +54,7 @@
           class="col-12 col-md-10 offset-md-2 mt-5 px-5"
           style="display: none"
         >
-          {% with messages = get_flashed_messages(with_categories=True) %} {% if
-          messages %} {% for category, message in messages %}
           <div class="alert alert-{{ category }} mb-5" role="alert">
-            {{ message }}
             <button
               type="button"
               class="close"
@@ -67,7 +64,6 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          {% endfor %} {% endif %} {% endwith %}
 
           <h1>Virtual Project Board</h1>
           <p>PACE - EY Data and Analytics</p>
